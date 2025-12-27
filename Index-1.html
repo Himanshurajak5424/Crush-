@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For My Special One ❤️</title>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<style>
+*{
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    -webkit-user-drag: none;
+    box-sizing: border-box;
+}
+html, body{
+    margin:0;
+    padding:0;
+    height:100%;
+    font-family:'Poppins',sans-serif;
+}
+body{
+    background: linear-gradient(135deg,#ff9a9e,#fecfef);
+    display:flex;
+    flex-direction:column;
+}
+.wrapper{
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:15px;
+}
+.container{
+    width:100%;
+    max-width:400px;
+    background:rgba(255,255,255,0.92);
+    padding:30px;
+    border-radius:25px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.15);
+    text-align:center;
+}
+.page{display:none;}
+.page.active{display:block;}
+img{
+    width:180px;
+    border-radius:15px;
+    margin-bottom:20px;
+    pointer-events:none;
+}
+h1{
+    font-family:'Dancing Script',cursive;
+    color:#d63384;
+    margin-bottom:10px;
+}
+p{
+    color:#555;
+    margin-bottom:20px;
+}
+.shayari{
+    font-style:italic;
+    color:#c0392b;
+    font-weight:600;
+}
+.btn{
+    background:linear-gradient(to right,#ff416c,#ff4b2b);
+    color:#fff;
+    border:none;
+    padding:12px 30px;
+    border-radius:50px;
+    cursor:pointer;
+    margin:8px;
+}
+#noBtn{
+    background:#b2bec3;
+    color:#2d3436;
+}
+footer{
+    text-align:center;
+    padding:12px 10px 18px;
+    font-size:14px;
+    color:#6b6b6b;
+}
+footer span{
+    display:block;
+    font-weight:600;
+    color:#444;
+}
+    #musicOverlay{
+    position:fixed;
+    inset:0;
+    background:linear-gradient(135deg,rgba(255,154,158,0.9),rgba(254,207,239,0.9));
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:9999;
+    cursor:pointer;
+}
+
+.overlay-box{
+    background:#fff;
+    padding:25px 30px;
+    border-radius:25px;
+    text-align:center;
+    font-family:'Dancing Script',cursive;
+    font-size:26px;
+    color:#d63384;
+    box-shadow:0 15px 40px rgba(0,0,0,0.25);
+    animation:pulse 1.5s infinite;
+}
+
+.overlay-box small{
+    display:block;
+    font-family:'Poppins',sans-serif;
+    font-size:14px;
+    margin-top:8px;
+    color:#555;
+}
+
+@keyframes pulse{
+    0%{transform:scale(1);}
+    50%{transform:scale(1.08);}
+    100%{transform:scale(1);}
+}
+</style>
+</head>
+<body oncontextmenu="return false">
+<div class="wrapper">
+<div class="container">
+<div id="page1" class="page active">
+    <img src="https://i.postimg.cc/Hs9Tp1Fg/87d523801a9555a1f902dbaaa0963754.jpgl">
+    <h1>Hi Cutie! 👋</h1>
+    <p>Mujhe tumse kuch zaroori baat karni hai…</p>
+    <button class="btn" onclick="goToPage(2)">Haan, bolo? ➡️</button>
+</div>
+<audio id="bgSong" src="song.mp3" preload="auto"></audio>
+<div id="musicOverlay">
+    <div class="overlay-box">
+        💖 Touch Anywhere 💖<br>
+        <small>for a surprise song 🎶</small>
+    </div>
+</div>
+    
+<div id="page2" class="page">
+    <img src="https://i.postimg.cc/j2qZPNqX/f4e2c02e023eab05962dd55c20f96f4f.gif">
+    <h1>Dil ki Baat ❤️</h1>
+    <p class="shayari">
+        Na jane kyun tumhe dekh kar,<br>
+        Dil ki dhadkan badh jati hai.
+    </p>
+    <button class="btn" onclick="goToPage(3)">Aage kya? 🙈</button>
+</div>
+<div id="page3" class="page">
+    <img src="https://media.giphy.com/media/26FLdmIp6wJr91JAI/giphy.gif">
+    <h1>Will you be mine? 🌹</h1>
+    <p id="proposalText">Mai tumhe hamesha khush rakhunga 🥺</p>
+    <button class="btn" id="yesBtn" onclick="goToPage(4)">YES 😍</button>
+    <button class="btn" id="noBtn" onclick="handleNo()">Sochungi 🤔</button>
+</div>
+<div id="page4" class="page">
+    <img src="https://media.giphy.com/media/T86i6yDyOYz7J6dPhf/giphy.gif">
+    <h1>I Love You 💖</h1>
+    <p class="shayari">Ab toh haan keh diya tumne ❤️</p>
+    <button class="btn" onclick="sendWhatsApp()">Send Message 💌</button>
+</div>
+</div>
+</div>
+<footer>
+    © All Rights Reserved
+    <span>@Himanshu Rajak</span>
+</footer>
+<script>
+let noClickCount = 0;
+function goToPage(n){
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+    document.getElementById('page'+n).classList.add('active');
+    if(n===4) fireConfetti();
+}
+function handleNo(){
+    const text=document.getElementById("proposalText");
+    noClickCount++;
+    if(noClickCount===1) text.innerHTML="Arey yaar 🥺";
+    else if(noClickCount===2) text.innerHTML="Please maan jao 😭";
+    else document.getElementById("noBtn").style.display="none";
+}
+function fireConfetti(){
+    confetti({particleCount:200,spread:120});
+}
+function sendWhatsApp(){
+    const msg="YES ❤️ I will be yours!";
+    window.location.href=`https://wa.me/917797101148?text=${encodeURIComponent(msg)}`;
+}
+document.addEventListener("copy",e=>e.preventDefault());
+const overlay = document.getElementById("musicOverlay");
+const song = document.getElementById("bgSong");
+
+overlay.addEventListener("click", () => {
+    song.play().catch(()=>{});
+    overlay.style.display = "none";
+});
+</script>
+</body>
+</html>
